@@ -1,4 +1,4 @@
-﻿using BrickFactoryBeat.Domain.Equipment;
+using BrickFactoryBeat.Domain.Equipment;
 using BrickFactoryBeat.Domain.Orders;
 using BrickFactoryBeat.Domain.StateHistory;
 using BrickFactoryBeat.Infrastructure.Persistence;
@@ -17,7 +17,8 @@ namespace BrickFactoryBeat.Infrastructure.DependencyInjection
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlite("Data Source=lego.db"));
+                //options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             
             // Register repositories (Infrastructure implementations)
             services.AddScoped<IEquipmentRepository, EquipmentRepository>();
