@@ -4,7 +4,7 @@ import {createOrder, OrderType} from "../api/EquipmentApi";
 interface Props {
     equipmentId: string;
     onClose: () => void;
-    onCreated: () => void;
+    onCreated: () => void; // run the root again to refresh equipment
 }
 
 const CreateOrderModal: React.FC<Props> = ({ equipmentId, onClose, onCreated }) => {
@@ -26,6 +26,8 @@ const CreateOrderModal: React.FC<Props> = ({ equipmentId, onClose, onCreated }) 
         }
     };
 
+    const commonStyle = { width: "100%", padding: "0.5rem", marginBottom: "0.5rem", backgroundColor: "#333", color: "#fff", border: "1px solid #555" }
+
     return (
         <div
             onClick={(e) => {
@@ -43,18 +45,18 @@ const CreateOrderModal: React.FC<Props> = ({ equipmentId, onClose, onCreated }) 
             }}
         >
             <div style={{ backgroundColor: "#1e1e1e", padding: "1rem", borderRadius: "8px", minWidth: "300px" }}>
-                <h3>Create Order</h3>
+                <h3>Create Order:</h3>
                 <input
                     type="text"
                     placeholder="Order title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    style={{ width: "100%", padding: "0.5rem", marginBottom: "0.5rem", backgroundColor: "#333", color: "#fff", border: "1px solid #555" }}
+                    style={commonStyle}
                 />
                 <select
                     value={type}
                     onChange={(e) => setType(Number(e.target.value) as OrderType)}
-                    style={{ width: "100%", padding: "0.5rem", marginBottom: "0.5rem", backgroundColor: "#333", color: "#fff", border: "1px solid #555" }}
+                    style={commonStyle}
                 >
                     {Object.keys(OrderType).filter(orderTypeKey => isNaN(Number(orderTypeKey))).map(k => (
                         <option key={k} value={OrderType[k as keyof typeof OrderType]}>
