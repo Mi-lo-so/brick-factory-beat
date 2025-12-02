@@ -1,4 +1,4 @@
-﻿using BrickFactoryBeat.Domain.Equipment;
+using BrickFactoryBeat.Domain.Equipment;
 using BrickFactoryBeat.Domain.Orders;
 using BrickFactoryBeat.Domain.StateHistory;
 using Microsoft.Extensions.DependencyInjection;
@@ -107,9 +107,8 @@ public class EquipmentService(
         var equipment = await equipmentRepository.GetByIdAsync(equipmentId)
             ?? throw new Exception($"Equipment {equipmentId} not found.");
         
-        //order.Equipment = equipment;
+        order.Equipment = equipment;
         
-
         try
         {
             await orderRepository.AddAsync(order);
