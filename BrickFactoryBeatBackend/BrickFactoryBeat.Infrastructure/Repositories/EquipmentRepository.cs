@@ -36,18 +36,18 @@ public class EquipmentRepository(AppDbContext db) : IEquipmentRepository
             .ThenInclude(h => h.Order)
             .FirstOrDefaultAsync(e => e.Id == id);
 
-        if (equipment != null)
+        if (equipment == null) return equipment;
         {
             // Order newest first
             equipment.Orders = equipment.Orders
-                .OrderByDescending(o => o.StartedAt)
+                .OrderByDescending(o => o.CompletedAt)
                 .ToList();
 
             equipment.StateHistory = equipment.StateHistory
                 .OrderByDescending(h => h.ChangedAt)
                 .ToList();
         }
-        
+
         return equipment;
     }
 

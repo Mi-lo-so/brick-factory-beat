@@ -99,6 +99,20 @@ public class EquipmentController(IEquipmentService service) : Controller
         return Ok();
     }
     
+    [HttpPost("{id:guid}/startOrders")]
+    public async Task<IActionResult> StartOrder(Guid id)
+    {
+        await service.StartNextOrderAsync(id.ToString());
+        return Ok();
+    }
+    
+    [HttpPost("{id:guid}/order/{orderId}/start")]
+    public async Task<IActionResult> StartOrder(Guid id, string orderId)
+    {
+        await service.StartNextOrderAsync(id.ToString(), orderId);
+        return Ok();
+    }
+    
     [HttpGet("{id:guid}/order")]
     public async Task<IActionResult> GetOrders(Guid id) => Ok(await service.GetAllOrdersForEquipmentAsync(id.ToString()));
 

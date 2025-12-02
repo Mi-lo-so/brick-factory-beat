@@ -1,7 +1,6 @@
 using System.Reflection;
-using System.Text.Json.Serialization;
+using BrickFactoryBeat.Application.Services;
 using BrickFactoryBeat.Infrastructure.DependencyInjection;
-using BrickFactoryBeat.Infrastructure.Persistence;
 using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +24,8 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddScoped<IEquipmentService, EquipmentService>();
+
 
 // Enable CORS so the REACT app can access the API
 builder.Services.AddCors(options =>
@@ -39,14 +40,12 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 app.UseCors();
 
-// Use Swagger middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API v1");
-        // c.RoutePrefix = string.Empty; // uncomment to serve UI at root
     });
 }
 

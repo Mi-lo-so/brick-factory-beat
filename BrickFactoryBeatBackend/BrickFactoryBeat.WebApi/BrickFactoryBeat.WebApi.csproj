@@ -21,10 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Modules\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\BrickFactoryBeat.Application\BrickFactoryBeat.Application.csproj" />
       <ProjectReference Include="..\BrickFactoryBeat.Domain\BrickFactoryBeat.Domain.csproj" />
       <ProjectReference Include="..\BrickFactoryBeat.Infrastructure\BrickFactoryBeat.Infrastructure.csproj" />

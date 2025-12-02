@@ -7,6 +7,12 @@ namespace BrickFactoryBeat.Infrastructure.Repositories;
 
 public class OrderRepository(AppDbContext db)  : IOrderRepository
 {
+    public async Task UpdateAsync(Order order)
+    {
+        db.Orders.Update(order);
+        await db.SaveChangesAsync();
+    }
+    
     public async Task AddAsync(Order order)
     {
         if (order.Id.IsNullOrEmpty())

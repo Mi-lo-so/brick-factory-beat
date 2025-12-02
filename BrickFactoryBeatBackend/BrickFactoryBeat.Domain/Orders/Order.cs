@@ -1,6 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using BrickFactoryBeat.Domain.Equipment;
-using BrickFactoryBeat.Domain.StateHistory;
 
 namespace BrickFactoryBeat.Domain.Orders;
 
@@ -22,6 +20,8 @@ public class Order
     
     // status needed? e.g. completed, in-progress, pending
     public string Status { get; set; }
+   // public ICollection<EquipmentTask> Tasks { get; set; } = new List<EquipmentTask>();
+   public int Duration { get; set; } = 1; // in seconds
     
     public DateTime StartedAt { get; set; }
     public DateTime? CompletedAt { get; set; }

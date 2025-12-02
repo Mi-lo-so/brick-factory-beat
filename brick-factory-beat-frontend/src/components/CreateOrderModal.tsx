@@ -28,6 +28,9 @@ const CreateOrderModal: React.FC<Props> = ({ equipmentId, onClose, onCreated }) 
 
     return (
         <div
+            onClick={(e) => {
+                e.stopPropagation();
+            }}
             style={{
                 position: "fixed",
                 top: 0, left: 0,

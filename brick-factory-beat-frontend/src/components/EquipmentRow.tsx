@@ -68,7 +68,7 @@ const EquipmentRow: React.FC<Props> = ({ equipment, onUpdated }) => {
                 {latestOrder ? `Order started: ${new Date(latestOrder.startedAt).toLocaleString()}` : "No orders"}
             </div>
 
-            <button onClick={() => setOrderModalOpen(true)} style={{ padding: "0.25rem 0.5rem" }}>
+            <button onClick={(e) => {e.stopPropagation(); setOrderModalOpen(true);}}  style={{ padding: "0.25rem 0.5rem" }}>
                 Add Order
             </button>
 

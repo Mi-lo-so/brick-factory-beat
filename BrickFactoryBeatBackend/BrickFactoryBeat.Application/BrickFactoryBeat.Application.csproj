@@ -8,6 +8,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\BrickFactoryBeat.Domain\BrickFactoryBeat.Domain.csproj" />
+      <ProjectReference Include="..\BrickFactoryBeat.Infrastructure\BrickFactoryBeat.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit" Version="9.0.0-develop.25" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="9.0.0-develop.25" />
     </ItemGroup>
 
 </Project>

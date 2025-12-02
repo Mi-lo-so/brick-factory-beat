@@ -1,5 +1,10 @@
 ﻿import axios from "axios";
 
+export interface EquipmentTask {
+    type: string;
+    duration: number;
+}
+
 export interface Order {
     id: string;
     title: string;
@@ -7,7 +12,7 @@ export interface Order {
     equipmentId: string;
     status: string;
     startedAt: Date;
-    CompletedAt?: Date;
+    completedAt?: Date;
 }
 
 export interface StateHistoryRecord {
@@ -104,9 +109,12 @@ export const createOrder = async (id: string, title: string, orderType: OrderTyp
             OrderType: orderType,
             Status: "Pending",
             StartedAt: new Date().toISOString()
-
     };
 
     const response = await axios.post<Order>(`${API_BASE}/Equipment/${id}/order`, { order });
     return response.data;
+};
+
+export const startOrder = async (equipmentId:string, id: string): Promise<void> => {
+    const response = await axios.post<Order>(`${API_BASE}/Equipment/${equipmentId}/order/${id}/start`);
 };

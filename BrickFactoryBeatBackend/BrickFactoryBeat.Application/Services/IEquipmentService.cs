@@ -18,4 +18,6 @@ public interface IEquipmentService
     Task<List<Order>?> GetAllOrdersForEquipmentAsync(string equipmentId);
     
     Task<List<StateHistoryRecord>?> GetHistoryForEquipmentAsync(string equipmentId);
+
+    Task StartNextOrderAsync(string equipmentId, string? orderId = null);
 }

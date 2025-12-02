@@ -1,5 +1,4 @@
-﻿using BrickFactoryBeat.Application.Services;
-using BrickFactoryBeat.Domain.Equipment;
+﻿using BrickFactoryBeat.Domain.Equipment;
 using BrickFactoryBeat.Domain.Orders;
 using BrickFactoryBeat.Domain.StateHistory;
 using BrickFactoryBeat.Infrastructure.Persistence;
@@ -26,7 +25,8 @@ namespace BrickFactoryBeat.Infrastructure.DependencyInjection
             services.AddScoped<IStateHistoryRepository, StateHistoryRepository>();
 
             // Register Application services
-            services.AddScoped<IEquipmentService, EquipmentService>();
+             //services.AddScoped<IEquipmentService, EquipmentService>();
+            //services.AddSingleton<IMessageBus, RabbitMqMessageBus>();
             
             
             // TODO consider optimization if time

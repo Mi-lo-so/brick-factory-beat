@@ -13,6 +13,7 @@ public class Equipment
     public required string Id { get; set; }
     public EquipmentState State { get; set; }
     public EquipmentType Type { get; set; }
+    public Order? CurrentOrder { get; set; }
     
     public ICollection<Order> Orders { get; set; } = new List<Order>();
     public ICollection<StateHistoryRecord> StateHistory { get; set; } = new List<StateHistoryRecord>();

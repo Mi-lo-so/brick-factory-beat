@@ -3,12 +3,13 @@ import {
     Equipment,
     EquipmentState,
     getAllEquipments,
-    getEquipmentById, getEquipmentTypeLabel,
+    getEquipmentById, getEquipmentTypeLabel, startOrder,
     StateHistoryRecord
 } from "../../api/EquipmentApi";
 import { useParams, Link } from "react-router-dom";
 import {ChangeStateButton} from "../ChangeStateButton";
 import {typeIcons} from "../stateIcons";
+import CreateOrderModal from "../CreateOrderModal";
 
 const stateLabels: Record<EquipmentState, string> = {
     [EquipmentState.Red]: "Red",
@@ -72,7 +73,7 @@ const EquipmentDetailPage: React.FC = () => {
                 </div>
             </div>
 
-            <EquipmentOrders equipment={equipment} />
+            <EquipmentOrders equipment={equipment} onUpdated={fetchEquipment}/>
 
             <StateHistory sortedHistory={sortedHistory} />
         </div>
@@ -81,12 +82,28 @@ const EquipmentDetailPage: React.FC = () => {
 
 interface EquipmentOrdersProps {
     equipment: Equipment;
+    onUpdated: () => void;
 }
 
-const EquipmentOrders: React.FC<EquipmentOrdersProps> = ({equipment}:EquipmentOrdersProps) => {
+const EquipmentOrders: React.FC<EquipmentOrdersProps> = ({equipment, onUpdated}:EquipmentOrdersProps) => {
+    const [orderModalOpen, setOrderModalOpen] = useState(false);
+
     console.log(equipment);
     return <section style={{ marginBottom: "1.5rem" }}>
         <h2>Orders</h2>
+
+        <button onClick={(e) => {e.stopPropagation(); setOrderModalOpen(true);}}  style={{ padding: "0.25rem 0.5rem" }}>
+            Add Order
+        </button>
+
+        {orderModalOpen && (
+            <CreateOrderModal
+                equipmentId={equipment.id}
+                onClose={() => setOrderModalOpen(false)}
+                onCreated={onUpdated} // refreshes list
+            />
+        )}
+
         {equipment.orders ? equipment.orders.length === 0 && <div>No orders yet.</div> : null}
 
         {equipment.orders ? equipment.orders.map((o) => (
@@ -103,9 +120,27 @@ const EquipmentOrders: React.FC<EquipmentOrdersProps> = ({equipment}:EquipmentOr
                 <div>
                     <strong>{o.title}</strong> ({o.status})
                 </div>
-                <div style={{ fontSize: "0.85rem", color: "#ccc" }}>
+                <div style={{ fontSize: "1rem", color: "#ccc" }}>
                     Started: {new Date(o.startedAt).toLocaleString()}
-                    { <>   --|--   Completed: {o.CompletedAt ? new Date(o.CompletedAt).toLocaleString() : "N/A"}</>}
+                    { <>   --|--   Completed: { o.completedAt ? new Date(o.completedAt).toLocaleString()  : "N/A"}</>}
+                    <button
+                        disabled={equipment.state !== EquipmentState.Green}
+                        onClick={async (e) => {
+                            e.stopPropagation();
+                            try {
+                                await startOrder(o.equipmentId, o.id);
+                                onUpdated();
+                            } catch (err) {
+                                console.error("Failed to start order", err);
+                            }
+                        }}
+                        style={{ padding: "0.25rem 0.5rem", color: "whitesmoke", marginLeft: "1rem" }}>
+                        <h4>{o.status === "Pending"
+                            ? "Start Order"
+                            : o.status === "Paused"
+                                ? "Resume"
+                                : "Restart Order"}</h4>
+                    </button>
                 </div>
             </div>
         )) : null}
